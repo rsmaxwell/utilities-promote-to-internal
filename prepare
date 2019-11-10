@@ -1,5 +1,22 @@
 #!/bin/bash
 
+REPOSITORY_URL="https://server.rsmaxwell.co.uk/archiva/repository"
+REPOSITORYID="build"
+REPOSITORY="build"
+GROUPID="com.rsmaxwell.players"
+NAME="players-api"
+PACKAGING="zip"
+
+GOARCH=$(go env GOARCH)
+GOOS=$(go env GOOS)
+
+URL=${REPOSITORY_URL}/${REPOSITORY}/
+ARTIFACTID=${JOB_NAME}-${GOARCH}-${GOOS}
+FILENAME=${JOB_NAME}-${GOARCH}-${GOOS}-${BUILD_ID}.${PACKAGING}
+
+CLASSIFIER_TEST="test"
+FILENAME_TEST=${JOB_NAME}-${GOARCH}-${GOOS}-${BUILD_ID}-${CLASSIFIER_TEST}.${PACKAGING}
+
 rm -rf /tmp/latest-* stdout.txt stderr.txt utilities-*.jar
 
 #**************************************************************
@@ -49,7 +66,7 @@ cat >${pom} <<'EOT'
 	<repositories>
 		<repository>
 			<id>build</id>
-			<url>https://server.rsmaxwell.co.uk/archiva/repository/build</url>
+			<url>${URL}/${REPOSITORY}</url>
 		</repository>
 	</repositories>
 
@@ -114,18 +131,15 @@ if [ ! ${result} == 0 ]; then
 fi
 
 #**************************************************************
-# Find the version of 'utilities' that 'utilities-internal-test' was built with
+# Resolve 'players-api' and its testing addons
 #**************************************************************
-GROUPID="com.rsmaxwell.utilities"
-ARTIFACTID="utilities-internal-test"
-VERSION="${utilities_internal_test_version}"
-PACKAGING="jar"
 
-jarfile=${HOME}/.m2/repository/${GROUPID//.//}/${ARTIFACTID}/${VERSION}/${ARTIFACTID}-${VERSION}.${PACKAGING}
-if [ ! -f ${jarfile} ]; then
+
+filename=${HOME}/.m2/repository/${GROUPID//.//}/${ARTIFACTID}/${VERSION}/${ARTIFACTID}-${VERSION}.${PACKAGING}
+if [ ! -f ${filename} ]; then
     echo "Error: $0[${LINENO}]"
     echo "result: ${result}"
-    echo "jarfile not found: ${jarfile}"
+    echo "file not found: ${filename}"
     exit 1
 fi
 
