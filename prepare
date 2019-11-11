@@ -133,6 +133,7 @@ fi
 #**************************************************************
 # Resolve 'utilities' and its testing addons
 #**************************************************************
+VERSION="${utilities_internal_test_version}"
 
 filename=${HOME}/.m2/repository/${GROUPID//.//}/${ARTIFACTID}/${VERSION}/${ARTIFACTID}-${VERSION}.${PACKAGING}
 if [ ! -f ${filename} ]; then
