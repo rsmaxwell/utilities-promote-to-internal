@@ -4,18 +4,14 @@ REPOSITORY_URL="https://server.rsmaxwell.co.uk/archiva/repository"
 REPOSITORYID="build"
 REPOSITORY="build"
 GROUPID="com.rsmaxwell.utilities"
-NAME="utilities-internal-test"
+ARTIFACTID="utilities-internal-test"
 PACKAGING="zip"
 
-GOARCH=$(go env GOARCH)
-GOOS=$(go env GOOS)
-
 URL=${REPOSITORY_URL}/${REPOSITORY}/
-ARTIFACTID=${NAME}-${GOARCH}-${GOOS}
-FILENAME=${NAME}-${GOARCH}-${GOOS}-${BUILD_ID}.${PACKAGING}
+FILENAME=${ARTIFACTID}-${BUILD_ID}.${PACKAGING}
 
 CLASSIFIER_TEST="test"
-FILENAME_TEST=${NAME}-${GOARCH}-${GOOS}-${BUILD_ID}-${CLASSIFIER_TEST}.${PACKAGING}
+FILENAME_TEST=${ARTIFACTID}-${BUILD_ID}-${CLASSIFIER_TEST}.${PACKAGING}
 
 rm -rf /tmp/latest-* stdout.txt stderr.txt utilities-*.jar
 
