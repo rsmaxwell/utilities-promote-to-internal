@@ -1,18 +1,8 @@
 #!/bin/bash
 
-REPOSITORY_URL="https://server.rsmaxwell.co.uk/archiva/repository"
-REPOSITORYID="build"
-REPOSITORY="build"
-GROUPID="com.rsmaxwell.utilities"
-ARTIFACTID="utilities-internal-test"
-PACKAGING="zip"
-
-URL=${REPOSITORY_URL}/${REPOSITORY}/
-FILENAME=${ARTIFACTID}-${BUILD_ID}.${PACKAGING}
-
-CLASSIFIER_TEST="test"
-FILENAME_TEST=${ARTIFACTID}-${BUILD_ID}-${CLASSIFIER_TEST}.${PACKAGING}
-
+#**************************************************************
+# Clean the workspace
+#**************************************************************
 rm -rf /tmp/latest-* stdout.txt stderr.txt utilities-*.jar
 
 #**************************************************************
@@ -42,6 +32,14 @@ if [ ! ${result} == 0 ]; then
     exit 1
 fi
 
+REPOSITORY_URL="https://server.rsmaxwell.co.uk/archiva/repository"
+REPOSITORYID="build"
+REPOSITORY="build"
+GROUPID="com.rsmaxwell.utilities"
+ARTIFACTID="utilities-internal-test"
+
+URL=${REPOSITORY_URL}/${REPOSITORY}/
+
 pom="pom.xml"
 cat >${pom} <<EOT
 <project>
@@ -61,8 +59,8 @@ cat >${pom} <<EOT
 
 	<repositories>
 		<repository>
-			<id>build</id>
-			<url>${URL}/${REPOSITORY}</url>
+			<id>${REPOSITORYID}</id>
+			<url>${URL}</url>
 		</repository>
 	</repositories>
 
@@ -130,6 +128,7 @@ fi
 # Resolve 'utilities' and its testing addons
 #**************************************************************
 VERSION="${utilities_internal_test_version}"
+PACKAGING="zip"
 
 filename=${HOME}/.m2/repository/${GROUPID//.//}/${ARTIFACTID}/${VERSION}/${ARTIFACTID}-${VERSION}.${PACKAGING}
 if [ ! -f ${filename} ]; then
