@@ -3,19 +3,19 @@
 REPOSITORY_URL="https://server.rsmaxwell.co.uk/archiva/repository"
 REPOSITORYID="build"
 REPOSITORY="build"
-GROUPID="com.rsmaxwell.players"
-NAME="players-api"
+GROUPID="com.rsmaxwell.utilities"
+NAME="utilities-internal-test"
 PACKAGING="zip"
 
 GOARCH=$(go env GOARCH)
 GOOS=$(go env GOOS)
 
 URL=${REPOSITORY_URL}/${REPOSITORY}/
-ARTIFACTID=${JOB_NAME}-${GOARCH}-${GOOS}
-FILENAME=${JOB_NAME}-${GOARCH}-${GOOS}-${BUILD_ID}.${PACKAGING}
+ARTIFACTID=${NAME}-${GOARCH}-${GOOS}
+FILENAME=${NAME}-${GOARCH}-${GOOS}-${BUILD_ID}.${PACKAGING}
 
 CLASSIFIER_TEST="test"
-FILENAME_TEST=${JOB_NAME}-${GOARCH}-${GOOS}-${BUILD_ID}-${CLASSIFIER_TEST}.${PACKAGING}
+FILENAME_TEST=${NAME}-${GOARCH}-${GOOS}-${BUILD_ID}-${CLASSIFIER_TEST}.${PACKAGING}
 
 rm -rf /tmp/latest-* stdout.txt stderr.txt utilities-*.jar
 
@@ -57,8 +57,8 @@ cat >${pom} <<'EOT'
 
 	<dependencies>
 		<dependency>
-			<groupId>com.rsmaxwell.utilities</groupId>
-			<artifactId>utilities-internal-test</artifactId>
+			<groupId>${GROUPID}</groupId>
+			<artifactId>${NAME}</artifactId>
 			<version>1</version>
 		</dependency>
 	</dependencies>
@@ -131,9 +131,8 @@ if [ ! ${result} == 0 ]; then
 fi
 
 #**************************************************************
-# Resolve 'players-api' and its testing addons
+# Resolve 'utilities' and its testing addons
 #**************************************************************
-
 
 filename=${HOME}/.m2/repository/${GROUPID//.//}/${ARTIFACTID}/${VERSION}/${ARTIFACTID}-${VERSION}.${PACKAGING}
 if [ ! -f ${filename} ]; then
