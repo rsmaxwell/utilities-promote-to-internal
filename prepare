@@ -138,7 +138,7 @@ if [ ! -f ${filename} ]; then
     exit 1
 fi
 
-versionjson=$(java -cp ${jarfile} com.rsmaxwell.utilities_test.Version)
+versionjson=$(java -cp ${filename} com.rsmaxwell.utilities_test.Version)
 result=$?
 if [ ! ${result} == 0 ]; then
     echo "Error: $0[${LINENO}]"
