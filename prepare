@@ -52,7 +52,7 @@ cat >${pom} <<EOT
 	<dependencies>
 		<dependency>
 			<groupId>${GROUPID}</groupId>
-			<artifactId>${NAME}</artifactId>
+			<artifactId>${ARTIFACTID}</artifactId>
 			<version>1</version>
 		</dependency>
 	</dependencies>
